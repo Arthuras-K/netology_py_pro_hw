@@ -1,0 +1,2 @@
+def prost():
+    print(all)

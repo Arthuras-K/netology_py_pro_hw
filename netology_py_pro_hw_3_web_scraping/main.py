@@ -2,7 +2,15 @@ import bs4
 import requests
 from fake_useragent import UserAgent
 
-
+# Проверка на наличие в тексте ключевых слов
+def checking_availab(text: str, keywords: list) -> bool: 
+    text = text.lower()
+    for word in keywords:
+        word = word.lower()
+        if word in text:
+            return True
+    else: 
+        return False
 
 
 # фиктивные заголовки для обхода защиты сайта от парсинга 
@@ -25,18 +33,24 @@ text = response.text
 # превращаем сложный код в красивый суп
 soup = bs4.BeautifulSoup(text, features="html.parser")
 
-# узнав в каком контейнере находится нужная информайция, начинаем к ней копать через find\find_all
+# через F12 и браузер узнав в каком контейнере находится нужная информация, начинаем к ней копать через find\find_all, получаем все статьи в списке
 articles = soup.find_all(class_="tm-articles-list__item")
 
 for article in articles:
-    headline = article.find(class_="tm-article-snippet__title-link").find('span').text
-    print(111111111111111111, headline)
+    # получение всего текста из контейнера и удаление лишних пробелов
+    all_text = article.get_text(strip=True)
 
-    preview_info = article.find(class_="article-formatted-body article-formatted-body article-formatted-body_version-2").find('p')
-    print(333333333333333333, preview_info)
-    # hubs = [hub.text.strip() for hub in hubs]
-    # for hub in HUBS:
-    #     title = article.find('h2').find('span').text
-    #     href = article.find(class_='tm-article-snippet__title-link').attrs['href']
-    #     link = base_url+ href
-    #     print(f"{title} ---> {link}")
+    if checking_availab(all_text, KEYWORDS):
+        # получение даты создания статьи
+        date_article = article.time['title']
+
+        # получение заголовка статьи
+        title_article = article.find(class_="tm-article-snippet__title-link").find('span').text
+
+        # получение cсылки на статью
+        link_article = article.h2.a['href']
+
+        print(f'{date_article} "{title_article}" ---> {base_url+link_article}')
+
+    else:
+        print('- нет совпадений по ключевым словам')

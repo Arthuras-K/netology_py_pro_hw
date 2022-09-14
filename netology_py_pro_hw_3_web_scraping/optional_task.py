@@ -31,23 +31,25 @@ KEYWORDS = ['дизайн', 'фото', 'web', 'python']
 base_url = "https://habr.com"
 url = base_url + '/ru/all/'
 
-response = requests.get(url, headers=HEADERS)
-text = response.text
 
-soup = bs4.BeautifulSoup(text, features="html.parser")
+if __name__ == '__main__':
+    response = requests.get(url, headers=HEADERS)
+    text = response.text
 
-articles = soup.find_all(class_="tm-articles-list__item")
+    soup = bs4.BeautifulSoup(text, features="html.parser")
 
-for article in articles:
-    # получение cсылки на статью
-    full_link_article = base_url + article.h2.a['href']
+    articles = soup.find_all(class_="tm-articles-list__item")
 
-    if checking_availab(full_link_article, KEYWORDS):
-        date_article = article.time['title']
+    for article in articles:
+        # получение cсылки на статью
+        full_link_article = base_url + article.h2.a['href']
 
-        title_article = article.find(class_="tm-article-snippet__title-link").find('span').text
+        if checking_availab(full_link_article, KEYWORDS):
+            date_article = article.time['title']
 
-        print(f'{date_article} "{title_article}" ---> {full_link_article}')
+            title_article = article.find(class_="tm-article-snippet__title-link").find('span').text
 
-    else:
-        print('- нет совпадений по ключевым словам')
+            print(f'{date_article} "{title_article}" ---> {full_link_article}')
+
+        else:
+            print('- нет совпадений по ключевым словам')

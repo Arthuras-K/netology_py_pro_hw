@@ -19,6 +19,7 @@ class FlatIterator:
 
         return flat_list[self.index]
 
+
 # Функции генератор для вывода элементов 2D списка
 def flat_generator(nested_list: list) -> list:
     flat_list = [el for item in nested_list for el in item]
@@ -54,7 +55,6 @@ class DeepIterator:
                     return result
             else:
                 raise StopIteration
-
 
     
 # Функции генератор для вывода элементов списка с любым уровнем вложенности

@@ -1,24 +1,10 @@
 from copy import deepcopy
-from def_hw_4 import FlatIterator
-from def_hw_4 import flat_generator
-from def_hw_4 import DeepIterator
-from def_hw_4 import deep_generator
-
-
-nested_list = [
-    ['a', 'b', 'c'],
-    ['d', 'e', 'f', 'h', False],
-    [1, 2, None],
-]
-
-deep_list = [
-    ['start', 's',['t', ['a'], 'r'], 't'],
-	['a', 'b', 'c', [1, [[[[2]]]], 3]],
-    [4],
-	[False, 'or', None],
-    [['finish']]
-]
-
+from logic import FlatIterator
+from logic import flat_generator
+from logic import DeepIterator
+from logic import deep_generator
+from data import nested_list
+from data import deep_list
 
 
 if __name__ == '__main__':
@@ -52,5 +38,4 @@ if __name__ == '__main__':
     print('\ntask 4:')
     copy_list = deepcopy(deep_list)
     for item in  deep_generator(copy_list):
-        print(item)
-
+        print(item)        
